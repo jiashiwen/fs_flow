@@ -1,4 +1,4 @@
-use rand::Rng;
+use rand::RngExt;
 
 const CHARSET: &[u8] =
     b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789)(*&^%$#@!~.,;:<>?/\\|}{[]`-=_+";
