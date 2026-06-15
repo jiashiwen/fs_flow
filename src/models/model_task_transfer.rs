@@ -54,15 +54,21 @@ impl TransferType {
     }
 }
 
+/// 传输任务，描述从源到目标的完整传输任务
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "lowercase")]
 pub struct TransferTask {
+    /// 任务唯一标识符
     #[serde(default = "TaskDefaultParameters::id_default")]
     pub task_id: String,
+    /// 任务名称
     #[serde(default = "TaskDefaultParameters::name_default")]
     pub name: String,
+    /// 源存储端
     pub source: ObjectStorage,
+    /// 目标存储端
     pub target: ObjectStorage,
+    /// 传输任务属性
     pub attributes: TransferTaskAttributes,
 }
 

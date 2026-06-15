@@ -43,23 +43,35 @@ impl Default for S3RequestStyle {
     }
 }
 
+/// OSS 对象字符串列表，包含对象键名列表和下一页令牌
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct OssObjectsList {
+    /// 对象键名列表
     pub object_list: Option<Vec<String>>,
+    /// 下一页的令牌，用于分页查询
     pub next_token: Option<String>,
 }
 
+/// OSS 存储描述信息，用于配置和连接 OSS 服务
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct OSSDescription {
+    /// OSS 提供商类型（如 JD、ALI、S3 等）
     pub provider: OssProvider,
+    /// 访问密钥 ID
     pub access_key_id: String,
+    /// 秘密访问密钥
     pub secret_access_key: String,
+    /// OSS 服务端点地址
     pub endpoint: String,
+    /// 区域名称
     pub region: String,
+    /// 存储桶名称
     pub bucket: String,
+    /// 对象前缀（可选），用于过滤对象
     #[serde(default = "OSSDescription::prefix_default")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub prefix: Option<String>,
+    /// 请求样式（路径样式或虚拟主机样式）
     #[serde(default = "OSSDescription::s3requeststyle")]
     pub request_style: S3RequestStyle,
 }

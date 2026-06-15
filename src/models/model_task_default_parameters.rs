@@ -6,6 +6,7 @@ use crate::{
     tasks::task_id_generator,
 };
 
+/// 任务默认参数集合，提供各种任务属性的默认值
 pub struct TaskDefaultParameters {}
 
 impl TaskDefaultParameters {

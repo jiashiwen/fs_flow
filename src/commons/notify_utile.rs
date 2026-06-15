@@ -37,11 +37,15 @@ pub enum ModifyType {
     Modify,
 }
 
+/// 文件修改信息，记录文件系统中发生变更的文件及其变更类型
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "lowercase")]
 pub struct Modified {
+    /// 文件路径
     pub path: String,
+    /// 路径类型（文件或目录）
     pub path_type: PathType,
+    /// 修改类型（创建、修改、删除）
     pub modify_type: ModifyType,
 }
 
@@ -55,11 +59,16 @@ impl Modified {
     }
 }
 
+/// 文件系统通知监视器，用于监听目录中的文件变化
 #[derive(Debug)]
 pub struct NotifyWatcher {
+    /// 底层文件系统监视器
     watcher: RecommendedWatcher,
+    /// 事件接收器
     reciver: Receiver<Result<Event, Error>>,
+    /// 文件写入状态标记
     writing_file_status: bool,
+    /// 被监视的目录路径
     pub watched_dir: String,
 }
 
@@ -318,6 +327,7 @@ impl NotifyWatcher {
     }
 }
 
+/// 通知文件夹封装，包含文件监视器、事件接收器和控制标记
 #[derive(Debug)]
 pub struct NotifyFolder(
     RecommendedWatcher,

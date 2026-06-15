@@ -79,14 +79,22 @@ impl CompareTaskActions for TaskCompareLocal2Local {
     }
 }
 
+/// 本地到本地记录比较器，用于比较本地文件系统中的文件差异
 #[derive(Debug, Clone)]
 pub struct Local2LocalRecordsComparator {
+    /// 源端路径
     pub source: String,
+    /// 目标端路径
     pub target: String,
+    /// 任务停止标记
     pub stop_mark: Arc<AtomicBool>,
+    /// 错误发生标记
     pub err_occur: Arc<AtomicBool>,
+    /// 文件位置偏移映射表
     pub offset_map: Arc<DashMap<String, FilePosition>>,
+    /// 比较任务属性
     pub attributes: CompareTaskAttributes,
+    /// 比较检查选项
     pub check_option: CompareCheckOption,
 }
 

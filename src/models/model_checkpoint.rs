@@ -8,10 +8,14 @@ use std::{
     str::FromStr,
 };
 
+/// 文件描述信息，包含文件路径、大小和行数
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct FileDescription {
+    /// 文件路径
     pub path: String,
+    /// 文件大小（字节）
     pub size: u64,
+    /// 文件总行数
     pub total_lines: u64,
 }
 
@@ -44,11 +48,15 @@ impl FileDescription {
     }
 }
 
+/// 文件执行位置，记录在文件列表中的执行进度
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 pub struct FilePosition {
-    // 文件编码，可以根据文件编码找到sequenc_file 中对应的文件名作为，如果数值为负数则在checkpoint中不变更当前文件，当前文件为增量文件，执行增量逻辑
+    /// 文件编号，可根据编号找到 sequence_file 中对应的文件名；
+    /// 若为负数则在 checkpoint 中不变更当前文件，当前文件为增量文件，执行增量逻辑
     pub file_num: i32,
+    /// 文件中的字节偏移位置
     pub offset: usize,
+    /// 文件中的行号位置
     pub line_num: u64,
 }
 
@@ -62,20 +70,25 @@ impl Default for FilePosition {
     }
 }
 
+/// 检查点，用于记录任务的执行状态，支持断点续传
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct CheckPoint {
+    /// 任务唯一标识符
     pub task_id: String,
-    //当前全量对象列表
-    // 对象列表命名规则：OBJECT_LIST_FILE_PREFIX+秒级unix 时间戳 'objeclt_list_unixtimestampe'
+    /// 当前正在执行的对象列表文件信息
+    /// 对象列表命名规则：OBJECT_LIST_FILE_PREFIX + 秒级 unix 时间戳 'objeclt_list_unixtimestampe'
     pub executing_file: FileDescription,
-    // 文件执行位置，既执行到的offset，用于断点续传
+    /// 文件执行位置（偏移量和行号），用于断点续传
     pub executing_file_position: FilePosition,
+    /// 用于增量同步的通知文件路径（可选）
     pub file_for_notify: Option<String>,
+    /// 任务阶段（存量或增量）
     pub task_stage: TaskStage,
-    // 记录 checkpoint 时点的时间戳
+    /// 记录检查点的当前时间戳
     pub modify_checkpoint_timestamp: i128,
-    // 任务起始时间戳，用于后续增量任务
+    /// 任务起始时间戳，用于后续增量任务
     pub task_begin_timestamp: i128,
+    /// 上次扫描的时间戳
     pub last_scan_timestamp: i128,
 }
 

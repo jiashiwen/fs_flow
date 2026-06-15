@@ -33,14 +33,14 @@ use tokio::task;
 use tokio::{sync::Semaphore, task::JoinSet};
 use walkdir::WalkDir;
 
+/// 对象差异，记录源端和目标端对象的比较结果
 #[derive(Debug, Serialize, Deserialize, Clone)]
-// 定义一个结构体，用于存储对象差异
 pub struct ObjectDiff {
-    // 源对象
+    /// 源对象标识
     pub source: String,
-    // 目标对象
+    /// 目标对象标识
     pub target: String,
-    // 对象差异
+    /// 差异详情
     pub diff: Diff,
 }
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -90,40 +90,60 @@ impl fmt::Display for Diff {
     }
 }
 
+/// 存在性差异，记录源端和目标端对象是否存在
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DiffExists {
+    /// 源端对象是否存在
     pub source_exists: bool,
+    /// 目标端对象是否存在
     pub target_exists: bool,
 }
 
+/// 过期时间差异，记录源端和目标端对象的过期时间
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DiffExpires {
+    /// 源端对象过期时间
     pub source_expires: Option<DateTime>,
+    /// 目标端对象过期时间
     pub target_expires: Option<DateTime>,
 }
+
+/// 日期时间，表示秒和亚秒精度的时间
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DateTime {
+    /// 秒数
     pub seconds: i64,
+    /// 亚秒纳秒数
     pub subsecond_nanos: u32,
 }
 
+/// 内容长度差异，记录源端和目标端对象的内容长度
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DiffLength {
+    /// 源端对象内容长度
     pub source_content_len: i128,
+    /// 目标端对象内容长度
     pub target_content_len: i128,
 }
 
+/// 内容差异，记录源端和目标端对象在指定位置的内容差异
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DiffContent {
+    /// 差异发生的流位置
     pub stream_position: usize,
+    /// 源端字节值
     pub source_byte: u8,
+    /// 目标端字节值
     pub target_byte: u8,
 }
 
+/// 元数据差异，记录源端和目标端对象的元数据差异
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DiffMeta {
-    pub source_meta: Option<HashMap<std::string::String, std::string::String>>,
-    pub target_meta: Option<HashMap<std::string::String, std::string::String>>,
+    /// 源端对象的元数据
+    pub source_meta: Option<HashMap<String, String>>,
+    /// 目标端对象的元数据
+    pub target_meta: Option<HashMap<String, String>>,
 }
 
 impl ObjectDiff {

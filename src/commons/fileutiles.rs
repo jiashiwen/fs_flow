@@ -21,9 +21,13 @@ use time::OffsetDateTime;
 use tokio::{sync::Mutex, task::JoinSet};
 use walkdir::{DirEntry, WalkDir};
 
+/// 文件操作构建器，用于灵活配置文件的打开方式
 pub struct FileOperationBuilder {
+    /// 文件路径
     path: PathBuf,
+    /// 是否创建父目录
     create_parent: bool,
+    /// 是否以追加模式打开
     append_mode: bool,
 }
 

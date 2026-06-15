@@ -2,15 +2,21 @@ use rustyline::completion::{Completer, Pair};
 use rustyline::Context;
 use rustyline::Result;
 
+/// 子命令结构体，表示一个命令及其子命令的层次关系
 #[derive(Debug, Clone)]
 pub struct SubCmd {
+    /// 命令层级
     pub level: usize,
+    /// 命令名称
     pub command_name: String,
+    /// 子命令列表
     pub subcommands: Vec<String>,
 }
 
+/// 命令补全器，用于实现命令行自动补全功能
 #[derive(Debug, Clone)]
 pub struct CommandCompleter {
+    /// 子命令列表
     subcommands: Vec<SubCmd>,
 }
 

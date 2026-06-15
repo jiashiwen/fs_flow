@@ -15,12 +15,18 @@ use std::sync::atomic::AtomicBool;
 
 pub static INTERACT_STATUS: AtomicBool = AtomicBool::new(false);
 
+/// CLI 交互助手，提供命令行补全、高亮、校验和历史提示功能
 #[derive(Helper)]
 struct MyHelper {
+    /// 命令补全器
     completer: CommandCompleter,
+    /// 括号高亮器
     highlighter: MatchingBracketHighlighter,
+    /// 括号匹配校验器
     validator: MatchingBracketValidator,
+    /// 历史提示器
     hinter: HistoryHinter,
+    /// 带颜色的提示符
     colored_prompt: String,
 }
 

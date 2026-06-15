@@ -510,15 +510,24 @@ impl TransferOss2Local {
     }
 }
 
+/// OSS 到本地传输记录执行器
 #[derive(Debug, Clone)]
 struct TransferOss2LocalRecordsExecutor {
+    /// 源 OSS 描述信息
     pub source: OSSDescription,
+    /// 目标本地路径
     pub target: String,
+    /// 任务停止标记
     pub stop_mark: Arc<AtomicBool>,
+    /// 错误发生标记
     pub err_occur: Arc<AtomicBool>,
+    /// 并发控制信号量
     pub semaphore: Arc<Semaphore>,
+    /// 文件位置偏移映射表
     pub offset_map: Arc<DashMap<String, FilePosition>>,
+    /// 传输任务属性
     pub attributes: TransferTaskAttributes,
+    /// 当前列表文件路径
     pub list_file_path: String,
 }
 

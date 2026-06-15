@@ -33,12 +33,18 @@ use tokio::{
 };
 use walkdir::WalkDir;
 
+/// 传输任务共享标记，用于在多个并发任务间共享状态
 #[derive(Debug, Clone)]
 pub struct TransferSharedMarks {
+    /// 执行任务停止标记
     pub execute_stop_mark: Arc<AtomicBool>,
+    /// 通知任务停止标记
     pub notify_stop_mark: Arc<AtomicBool>,
+    /// 任务是否发生错误
     pub task_err_occur: Arc<AtomicBool>,
+    /// 多部分上传的并发信号量
     pub multi_part_semaphore: Arc<Semaphore>,
+    /// 文件位置偏移映射表，用于记录每个文件组的执行位置
     pub offset_map: Arc<DashMap<String, FilePosition>>,
 }
 

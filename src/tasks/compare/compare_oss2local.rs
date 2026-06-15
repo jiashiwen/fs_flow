@@ -24,12 +24,17 @@ use std::{
 };
 use tokio::{io::AsyncReadExt, sync::Semaphore};
 
+/// 表示从 OSS 到本地文件系统的比较任务
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "lowercase")]
 pub struct TaskCompareOss2Local {
+    /// 源端 OSS 描述信息
     pub source: OSSDescription,
+    /// 目标端本地路径
     pub target: String,
+    /// 比较检查选项
     pub check_option: CompareCheckOption,
+    /// 比较任务属性
     pub attributes: CompareTaskAttributes,
 }
 
@@ -72,14 +77,22 @@ impl CompareTaskActions for TaskCompareOss2Local {
     }
 }
 
+/// OSS 到本地记录比较器
 #[derive(Debug, Clone)]
 pub struct Oss2LocalRecordsComparator {
+    /// 源端 OSS 描述信息
     pub source: OSSDescription,
+    /// 目标端本地路径
     pub target: String,
+    /// 任务停止标记
     pub stop_mark: Arc<AtomicBool>,
+    /// 错误发生标记
     pub err_occur: Arc<AtomicBool>,
+    /// 文件位置偏移映射表
     pub offset_map: Arc<DashMap<String, FilePosition>>,
+    /// 比较检查选项
     pub check_option: CompareCheckOption,
+    /// 比较任务属性
     pub attributes: CompareTaskAttributes,
 }
 

@@ -39,21 +39,21 @@ use tokio::sync::Semaphore;
 use tokio::task::{self, JoinSet};
 use walkdir::WalkDir;
 
+/// 表示从本地文件系统到本地文件系统的传输任务
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "lowercase")]
-// 定义一个结构体TransferLocal2Local，用于表示本地到本地的传输任务
 pub struct TransferLocal2Local {
-    // 任务ID，默认值为TaskDefaultParameters::id_default()
+    /// 任务唯一标识符
     #[serde(default = "TaskDefaultParameters::id_default")]
     pub task_id: String,
-    // 任务名称，默认值为TaskDefaultParameters::name_default()
+    /// 任务名称
     #[serde(default = "TaskDefaultParameters::name_default")]
     pub name: String,
-    // 源文件路径
+    /// 源文件路径
     pub source: String,
-    // 目标文件路径
+    /// 目标文件路径
     pub target: String,
-    // 传输任务属性
+    /// 传输任务属性
     pub attributes: TransferTaskAttributes,
 }
 
@@ -299,14 +299,6 @@ impl TransferLocal2Local {
         };
         let file_position = FilePosition::default();
 
-        // let mut offset = match TryInto::<u64>::try_into(file_position.offset) {
-        //     Ok(o) => o,
-        //     Err(e) => {
-        //         log::error!("{:?}", e);
-        //         return;
-        //     }
-        // };
-
         let mut offset = TryInto::<u64>::try_into(file_position.offset).context(format!(
             "{}:{}",
             file!(),
@@ -320,7 +312,6 @@ impl TransferLocal2Local {
 
         // 启动 checkpoint 记录器
         let task_status_saver = TaskStatusSaver {
-            // check_point_path: assistant.lock().await.check_point_path.clone(),
             check_point_path: checkpoint_path.to_string(),
             executed_file,
             stop_mark: Arc::clone(&stop_mark),
@@ -471,18 +462,6 @@ impl TransferLocal2Local {
         // assistant: Arc<Mutex<IncrementAssistant>>,
         interval: u64,
     ) -> Result<()> {
-        // 循环执行获取lastmodify 大于checkpoint指定的时间戳的对象
-        // let lock = assistant.lock().await;
-        // let checkpoint_path = lock.check_point_path.clone();
-        // let mut checkpoint = match get_task_checkpoint(&lock.check_point_path) {
-        //     Ok(c) => c,
-        //     Err(e) => {
-        //         log::error!("{:?}", e);
-        //         return;
-        //     }
-        // };
-        // checkpoint.task_stage = TaskStage::Increment;
-        // drop(lock);
         let mut checkpoint =
             get_task_checkpoint(checkpoint_path).context(format!("{}:{}", file!(), line!()))?;
         checkpoint.task_stage = TaskStage::Increment;
@@ -510,15 +489,6 @@ impl TransferLocal2Local {
             let mut vec_keys = vec![];
             // 生成执行文件
             let mut list_file_position = FilePosition::default();
-            // let modified_file = match File::open(&modified.path) {
-            //     Ok(f) => f,
-            //     Err(e) => {
-            //         log::error!("{:?}", e);
-            //         err_occur.store(true, std::sync::atomic::Ordering::SeqCst);
-            //         stop_mark.store(true, std::sync::atomic::Ordering::SeqCst);
-            //         return;
-            //     }
-            // };
             let modified_file =
                 File::open(&modified.path).context(format!("{}:{}", file!(), line!()))?;
 
@@ -528,15 +498,6 @@ impl TransferLocal2Local {
                 if let Result::Ok(line_str) = line {
                     let len = line_str.bytes().len() + "\n".bytes().len();
 
-                    // let record = match from_str::<RecordOption>(&line_str) {
-                    //     Ok(r) => r,
-                    //     Err(e) => {
-                    //         log::error!("{:?}", e);
-                    //         err_occur.store(true, std::sync::atomic::Ordering::SeqCst);
-                    //         stop_mark.store(true, std::sync::atomic::Ordering::SeqCst);
-                    //         return;
-                    //     }
-                    // };
                     let record = from_str::<RecordOption>(&line_str).context(format!(
                         "{}:{}",
                         file!(),
@@ -784,14 +745,22 @@ impl TransferLocal2Local {
     }
 }
 
+/// 本地到本地传输任务执行器
 #[derive(Debug, Clone)]
 struct TransferLocal2LocalExecutor {
+    /// 源路径
     pub source: String,
+    /// 目标路径
     pub target: String,
+    /// 任务停止标记
     pub stop_mark: Arc<AtomicBool>,
+    /// 错误发生标记
     pub err_occur: Arc<AtomicBool>,
+    /// 文件位置偏移映射表
     pub offset_map: Arc<DashMap<String, FilePosition>>,
+    /// 传输任务属性
     pub attributes: TransferTaskAttributes,
+    /// 当前列表文件路径
     pub list_file_path: String,
 }
 
@@ -967,9 +936,6 @@ impl TransferLocal2LocalExecutor {
         }
 
         let t_path = Path::new(target_file);
-        // if let Some(p) = t_path.parent() {
-        //     std::fs::create_dir_all(p)?
-        // };
 
         // 目标object存在则不推送
         if self.attributes.target_exists_skip {

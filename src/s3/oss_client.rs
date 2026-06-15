@@ -51,15 +51,20 @@ pub struct ObjectRange {
     pub end: usize,
 }
 
-//Todo 尝试修改为Arc::<Client>
+// Todo 尝试修改为 Arc::<Client>
+/// OSS 客户端封装，包含 AWS SDK 的 S3 Client
 #[derive(Debug, Clone)]
 pub struct OssClient {
+    /// AWS SDK S3 客户端实例
     pub client: Client,
 }
 
+/// OSS 对象列表，包含对象信息和下一页令牌
 #[derive(Debug, Clone, PartialEq)]
 pub struct OssObjList {
+    /// 对象列表
     pub object_list: Option<Vec<Object>>,
+    /// 下一页的令牌，用于分页查询
     pub next_token: Option<String>,
 }
 

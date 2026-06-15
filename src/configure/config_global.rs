@@ -23,8 +23,10 @@ impl Default for LogLevel {
     }
 }
 
+/// 全局配置，包含日志级别等应用配置项
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Config {
+    /// 日志级别
     pub log_level: LogLevel,
 }
 

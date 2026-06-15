@@ -256,9 +256,12 @@ impl TaskDeleteBucket {
     }
 }
 
+/// 删除存储桶执行器
 #[derive(Debug, Clone)]
 pub struct DeleteBucketExecutor {
+    /// 源端 OSS 描述信息
     pub source: OSSDescription,
+    /// 文件位置偏移映射表
     pub offset_map: Arc<DashMap<String, FilePosition>>,
 }
 

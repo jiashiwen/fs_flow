@@ -6,9 +6,12 @@ pub trait Filter<T> {
     fn intercepted(&self, content: T) -> bool;
 }
 
+/// 正则表达式过滤器，用于包含/排除匹配特定模式的文件或对象路径
 #[derive(Debug, Clone)]
 pub struct RegexFilter {
+    /// 排除规则的正则表达式集合
     pub exclude_regex: Option<RegexSet>,
+    /// 包含规则的正则表达式集合
     pub include_regex: Option<RegexSet>,
 }
 

@@ -8,11 +8,16 @@ use std::{
     sync::{atomic::AtomicBool, Arc},
 };
 
+/// 列表记录，表示对象列表中的一条记录，包含文件位置信息
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ListedRecord {
+    /// 文件编号
     pub file_num: i32,
+    /// 对象键名
     pub key: String,
+    /// 在文件中的字节偏移量
     pub offset: usize,
+    /// 在文件中的行号
     pub line_num: u64,
 }
 
@@ -34,20 +39,31 @@ impl ListedRecord {
     }
 }
 
+/// 操作类型枚举
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum Opt {
+    /// 新增/上传操作
     PUT,
+    /// 删除操作
     REMOVE,
+    /// 比较操作
     COMPARE,
+    /// 未知操作
     UNKOWN,
 }
 
+/// 记录操作选项，描述对一条记录的具体操作方式和上下文
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct RecordOption {
+    /// 源端对象键名
     pub source_key: String,
+    /// 目标端对象键名
     pub target_key: String,
+    /// 列表文件路径
     pub list_file_path: String,
+    /// 列表文件中的位置信息
     pub list_file_position: FilePosition,
+    /// 操作类型
     pub option: Opt,
 }
 
