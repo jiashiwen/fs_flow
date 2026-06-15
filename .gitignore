@@ -32,7 +32,7 @@ out/
 **/.DS_Store
 **/.AppleDouble
 **/.LSOverride
-
+logs/
 # codegraph index
 .codegraph/
 
