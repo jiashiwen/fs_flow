@@ -6,18 +6,6 @@ use crate::models::{
 use crate::tasks::{de_usize_from_str, se_usize_to_str};
 use serde::{Deserialize, Serialize};
 
-// #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
-// #[serde(rename_all = "lowercase")]
-// pub struct IncrementModeScan {
-//     pub interval: u64,
-// }
-
-// impl Default for IncrementModeScan {
-//     fn default() -> Self {
-//         Self { interval: 3600 }
-//     }
-// }
-
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 #[serde(rename_all = "lowercase")]
 pub enum IncrementMode {

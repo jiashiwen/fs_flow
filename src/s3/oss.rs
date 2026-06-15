@@ -76,17 +76,6 @@ pub trait OSSActions {
     async fn upload_object_bytes(&self, bucket: &str, key: &str, content: Bytes) -> Result<()>;
 }
 
-// #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
-// pub enum OssProvider {
-//     JD,
-//     JRSS,
-//     ALI,
-//     S3,
-//     HUAWEI,
-//     COS,
-//     MINIO,
-// }
-
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct OssObjectsList {
     pub object_list: Option<Vec<String>>,
@@ -182,27 +171,6 @@ impl OSSDescription {
             OssProvider::JRSS => Ok(oss_client),
 
             OssProvider::S3 => {
-                // let shared_config = SdkConfig::builder()
-                //     .credentials_provider(SharedCredentialsProvider::new(Credentials::new(
-                //         self.access_key_id.clone(),
-                //         self.secret_access_key.clone(),
-                //         None,
-                //         None,
-                //         "Static",
-                //     )))
-                //     .endpoint_url(self.endpoint.clone())
-                //     .region(Region::new(self.region.clone()))
-                //     .behavior_version(BehaviorVersion::latest())
-                //     .stalled_stream_protection(StalledStreamProtectionConfig::disabled())
-                //     .build();
-
-                // let mut s3_config_builder = aws_sdk_s3::config::Builder::from(&shared_config);
-                // if let S3RequestStyle::PathStyle = self.request_style {
-                //     s3_config_builder = s3_config_builder.force_path_style(true);
-                // }
-
-                // let client = aws_sdk_s3::Client::from_conf(s3_config_builder.build());
-                // let oss_client = OssClient { client };
                 Ok(oss_client)
             }
             OssProvider::HUAWEI => Ok(oss_client),

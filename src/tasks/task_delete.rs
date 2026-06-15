@@ -24,7 +24,6 @@ use tokio::task::{self, JoinSet};
 // 增加 start_from_checkpoint arttribute
 impl TaskDeleteBucket {
     pub async fn execute(&self) -> Result<()> {
-        // let now = SystemTime::now().duration_since(UNIX_EPOCH)?;
         let task_stop_mark = Arc::new(AtomicBool::new(false));
         let task_err_occur = Arc::new(AtomicBool::new(false));
         let offset_map = Arc::new(DashMap::<String, FilePosition>::new());
@@ -96,7 +95,6 @@ impl TaskDeleteBucket {
             let lines: io::Lines<io::BufReader<File>> = io::BufReader::new(exec_file).lines();
             let exec_lines = exec_file_desc.total_lines - file_position.line_num;
 
-            // let lines = io::BufReader::new(objects_list_file).lines();
             for (line_idx, line) in lines.enumerate() {
                 if task_stop_mark.load(std::sync::atomic::Ordering::SeqCst) {
                     return Ok(());

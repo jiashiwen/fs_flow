@@ -1,4 +1,3 @@
-// use super::FilePosition;
 use crate::{commons::append_line_to_file, models::model_checkpoint::FilePosition};
 use anyhow::{Error, Result};
 use serde::{Deserialize, Serialize};

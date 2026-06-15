@@ -78,7 +78,6 @@ pub struct Oss2LocalRecordsComparator {
     pub target: String,
     pub stop_mark: Arc<AtomicBool>,
     pub err_occur: Arc<AtomicBool>,
-    // pub semaphore: Arc<Semaphore>,
     pub offset_map: Arc<DashMap<String, FilePosition>>,
     pub check_option: CompareCheckOption,
     pub attributes: CompareTaskAttributes,

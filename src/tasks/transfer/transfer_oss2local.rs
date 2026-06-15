@@ -253,7 +253,6 @@ impl TransferTaskActions for TransferOss2Local {
                 }
             };
 
-        // let mut sleep_time = 5;
         let pd = prompt_processbar("executing increment:waiting for data...");
         let mut finished_total_objects = 0;
 
@@ -768,11 +767,6 @@ impl TransferOss2LocalRecordsExecutor {
                         }
                     }
                 };
-                // let mut t_file = OpenOptions::new()
-                //     .truncate(true)
-                //     .create(true)
-                //     .write(true)
-                //     .open(&record.target_key)?;
                 download_object(
                     obj,
                     // &mut t_file,

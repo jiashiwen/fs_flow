@@ -4,7 +4,6 @@ use super::{
     size_distributed, RegexFilter,
 };
 use crate::{
-    // checkpoint::FileDescription,
     consts::task_consts::{OBJECTS_SEQUENCE_FILE, OBJECT_LIST_FILE_PREFIX},
     models::{model_checkpoint::FileDescription, model_filters::LastModifyFilter},
     tasks::gen_file_path,
@@ -29,7 +28,6 @@ pub struct FileOperationBuilder {
 }
 
 impl FileOperationBuilder {
-    // pub fn new(path: &str) -> Self {
     pub fn new<P: AsRef<Path>>(path: P) -> Self {
         Self {
             path: path.as_ref().to_path_buf(),
@@ -111,12 +109,6 @@ pub fn copy_file(
 ) -> Result<()> {
     let f_source = OpenOptions::new().read(true).open(source)?;
     let file_target_builder = FileOperationBuilder::new(target).with_parent_creation();
-
-    // let mut f_target = OpenOptions::new()
-    //     .create(true)
-    //     .write(true)
-    //     .truncate(true)
-    //     .open(target)?;
     let mut f_target = file_target_builder.build_file()?;
     let len = f_source.metadata()?.len();
     let len_usize = TryInto::<usize>::try_into(len)?;
@@ -145,11 +137,6 @@ pub fn copy_file(
 pub fn multi_parts_copy_file(source: &str, target: &str, chunk_size: usize) -> Result<()> {
     let mut f_source = OpenOptions::new().read(true).open(source)?;
     let target_file_builder = FileOperationBuilder::new(target).with_parent_creation();
-    // let mut f_target = OpenOptions::new()
-    //     .create(true)
-    //     .write(true)
-    //     .truncate(true)
-    //     .open(target)?;
     let mut f_target = target_file_builder.build_file()?;
 
     loop {
@@ -543,7 +530,6 @@ pub fn fill_file_with_zero(file_size: usize, chunk_size: usize, file_name: &str)
         .write(true)
         .truncate(true)
         .open(file_name)?;
-    // let mut file = LineWriter::new(file_ref);
     let buffer = vec![0; chunk_size];
     for _ in 0..batch {
         let _ = file_ref.write_all(&buffer);
@@ -765,7 +751,6 @@ pub fn gen_file_part_plan(file_path: &str, chunk_size: usize) -> Result<Vec<File
 /// # 返回值
 /// 创建成功返回Ok(())，失败返回错误
 pub fn create_parent_dir<P: AsRef<Path>>(file_path: P) -> Result<()> {
-    // if let Some(p) = Path::new(file_path).parent() {
     if let Some(p) = file_path.as_ref().parent() {
         std::fs::create_dir_all(p).context(format!("{}:{}", file!(), line!()))?;
     };

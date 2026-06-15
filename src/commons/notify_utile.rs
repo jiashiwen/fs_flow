@@ -66,7 +66,6 @@ pub struct NotifyWatcher {
 // Todo
 // 新增write_stop用来替换notify 文件
 impl NotifyWatcher {
-    // pub fn new<P: AsRef<Path>>(watched_dir: P) -> notify::Result<Self> {
     pub fn new<P: AsRef<Path>>(watched_dir: P) -> Result<Self> {
         let (tx, rx) = std::sync::mpsc::channel();
         let mut watcher = RecommendedWatcher::new(tx, Config::default())?;
@@ -83,13 +82,6 @@ impl NotifyWatcher {
                 return Err(anyhow::anyhow!("watched dir not exists"));
             }
         }
-
-        // Ok(Self {
-        //     // watcher,
-        //     watched_dir: watched_dir.as_ref().to_str().unwrap().to_string(),
-        //     reciver: rx,
-        //     writing_file_status: false,
-        // })
     }
 
     // Todo
@@ -495,18 +487,12 @@ mod test {
     };
 
     //cargo test commons::notify_utile::test::test_watch_to_files -- --nocapture
-    // #[test]
     #[tokio::test]
     async fn test_watch_to_files() {
-        // let rt = runtime::Builder::new_multi_thread().build().eanble.unwrap();
-        // let mut set: JoinSet<()> = JoinSet::new();
-
         let stop_mark = Arc::new(AtomicBool::new(false));
         let err_occur = Arc::new(AtomicBool::new(false));
         let s = stop_mark.clone();
         let e = err_occur.clone();
-        // let _rt_rs = rt.block_on(async move {
-        // set.spawn(async move {
         println!("begin watch");
         let notify_watcher = NotifyWatcher::new("/root/files").unwrap();
         if let Err(e) = notify_watcher.watch_to_files(s, e, "/tmp", 10).await {

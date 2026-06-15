@@ -1,4 +1,3 @@
-// use super::task_transfer::{IncrementMode, TransferTaskAttributes};
 use crate::checkpoint::{get_task_checkpoint, ListedRecord, Opt, RecordOption};
 use crate::commons::{
     analyze_folder_files_size, count_file_bytes, create_parent_dir, json_to_struct, merge_file,
@@ -309,17 +308,7 @@ impl TransferLocal2Oss {
         offset_map: Arc<DashMap<String, FilePosition>>,
         checkpoint_path: &str,
         file_for_notify: String,
-        // assistant: Arc<Mutex<IncrementAssistant>>,
     ) -> Result<()> {
-        // let lock = assistant.lock().await;
-        // let file_for_notify = match lock.local_notify.clone() {
-        //     Some(n) => n,
-        //     None => {
-        //         return;
-        //     }
-        // };
-        // drop(lock);
-
         let mut offset = 0;
         let mut line_num = 0;
 
@@ -364,14 +353,6 @@ impl TransferLocal2Oss {
         let pd = prompt_processbar("executing increment:waiting for data...");
 
         while !stop_mark.load(Ordering::SeqCst) {
-            // if file_for_notify
-            //     .notify_file_size
-            //     .load(Ordering::SeqCst)
-            //     .le(&offset)
-            // {
-            //     tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
-            //     continue;
-            // }
             let notify_file_size = count_file_bytes(&file_for_notify)?;
             if notify_file_size.le(&offset) {
                 tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
@@ -452,16 +433,6 @@ impl TransferLocal2Oss {
             if records.len() > 0 {
                 let _ = executor.transfer_record_options(records).await;
             }
-
-            // let error_file = match File::open(&error_file_name) {
-            //     Ok(f) => f,
-            //     Err(e) => {
-            //         log::error!("{:?}", e);
-            //         err_occur.store(true, std::sync::atomic::Ordering::SeqCst);
-            //         stop_mark.store(true, std::sync::atomic::Ordering::SeqCst);
-            //         return;
-            //     }
-            // };
 
             let error_file =
                 File::open(&error_file_name).context(format!("{}:{}", file!(), line!()))?;

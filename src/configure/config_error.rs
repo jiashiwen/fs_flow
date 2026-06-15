@@ -43,15 +43,7 @@ impl ConfigError {
             error_type: error_type,
         }
     }
-    // /// 数据库错误
-    // pub fn db_error(err: impl ToString) -> Self {
-    //     Self::from_err(err, AppErrorType::DbError)
-    // }
-    // /// 未找到
-    // pub fn not_found() -> Self {
-    //     Self::from_str("不存在的记录", AppErrorType::NotFound)
-    // }
-}
+    }
 
 impl std::error::Error for ConfigError {}
 

@@ -307,7 +307,6 @@ impl CompareTask {
 
         let mut file_position = file_position.clone();
 
-        // let file_executed_lines = file_position.line_num;
         for exec_file_desc in obj_list_files.iter().skip(file_num_usize) {
             // 按file_position seek file
             let mut exec_file = File::open(exec_file_desc.path.as_str())
@@ -335,7 +334,6 @@ impl CompareTask {
                         // 先写入当前key 开头的 offset，然后更新list_file_position 作为下一个key的offset,待验证效果
                         let len = key.bytes().len() + "\n".bytes().len();
 
-                        // #[cfg(target_family = "unix")]
                         if !key.ends_with("/") {
                             let record = ListedRecord {
                                 file_num,
@@ -345,16 +343,6 @@ impl CompareTask {
                             };
                             vec_keys.push(record);
                         }
-
-                        // #[cfg(target_family = "windows")]
-                        // if !key.ends_with("\\") {
-                        //     let record = ListedRecord {
-                        //         key,
-                        //         offset: file_position.offset,
-                        //         line_num: file_position.line_num,
-                        //     };
-                        //     vec_keys.push(record);
-                        // }
 
                         file_position.offset += len;
                         file_position.line_num += 1;
@@ -432,7 +420,6 @@ impl CompareTask {
 
     async fn get_list_files_and_position(
         &self,
-        // task: Arc<dyn CompareTaskActions + Send + Sync>,
     ) -> Result<(Vec<FileDescription>, FilePosition)> {
         let check_point_file = gen_file_path(
             self.attributes.meta_dir.as_str(),

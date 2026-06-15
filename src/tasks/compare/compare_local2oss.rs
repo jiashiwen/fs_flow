@@ -173,9 +173,6 @@ impl Local2OssRecordsComparator {
         let s_path = Path::new(source_key);
         let s_exists = s_path.exists();
 
-        // let mut t_exists = false;
-        // let mut obj_t = GetObjectOutput::builder().build();
-
         let t_exists = target
             .object_exists(self.target.bucket.as_str(), target_key)
             .await
