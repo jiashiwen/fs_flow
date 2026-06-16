@@ -5,7 +5,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use aws_config::{
     retry::RetryConfig,
-    timeout::{TimeoutConfig, TimeoutConfigBuilder},
+    timeout::TimeoutConfig,
     BehaviorVersion, SdkConfig,
 };
 use aws_credential_types::{provider::SharedCredentialsProvider, Credentials};

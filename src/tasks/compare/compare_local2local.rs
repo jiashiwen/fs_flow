@@ -63,7 +63,7 @@ impl CompareTaskActions for TaskCompareLocal2Local {
         &self,
         stop_mark: Arc<AtomicBool>,
         err_occur: Arc<AtomicBool>,
-        semaphore: Arc<Semaphore>,
+        _semaphore: Arc<Semaphore>,
         offset_map: Arc<DashMap<String, FilePosition>>,
     ) -> Arc<dyn CompareExecutor + Send + Sync> {
         let comparator = Local2LocalRecordsComparator {

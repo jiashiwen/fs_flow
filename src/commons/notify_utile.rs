@@ -63,6 +63,7 @@ impl Modified {
 #[derive(Debug)]
 pub struct NotifyWatcher {
     /// 底层文件系统监视器
+    #[allow(dead_code)]
     watcher: RecommendedWatcher,
     /// 事件接收器
     reciver: Receiver<Result<Event, Error>>,
@@ -330,7 +331,7 @@ impl NotifyWatcher {
 /// 通知文件夹封装，包含文件监视器、事件接收器和控制标记
 #[derive(Debug)]
 pub struct NotifyFolder(
-    RecommendedWatcher,
+    #[allow(dead_code)] RecommendedWatcher,
     pub Receiver<Result<Event, Error>>,
     pub Arc<AtomicBool>,
     pub Arc<AtomicBool>,
@@ -361,7 +362,7 @@ impl NotifyFolder {
         }
     }
 
-    pub async fn watch_to_files(mut self, meta_dir: &str, file_max_lines: usize) -> Result<()> {
+    pub async fn watch_to_files(self, meta_dir: &str, file_max_lines: usize) -> Result<()> {
         self.3.store(false, std::sync::atomic::Ordering::SeqCst);
         self.2.store(false, std::sync::atomic::Ordering::SeqCst);
         let mut lines_counter = 0;

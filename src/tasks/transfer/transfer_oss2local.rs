@@ -273,7 +273,7 @@ impl TransferTaskActions for TransferOss2Local {
 
             let mut vec_keys = vec![];
             // 生成执行文件
-            let mut list_file_position = FilePosition::default();
+            let mut _list_file_position = FilePosition::default();
             let modified_file = match File::open(&modified.path) {
                 Ok(f) => f,
                 Err(e) => {
@@ -305,8 +305,8 @@ impl TransferTaskActions for TransferOss2Local {
                         record.target_key = t_file_name;
                         vec_keys.push(record);
                     }
-                    list_file_position.offset += len;
-                    list_file_position.line_num += 1;
+                    _list_file_position.offset += len;
+                    _list_file_position.line_num += 1;
                 };
 
                 if vec_keys
@@ -345,7 +345,7 @@ impl TransferTaskActions for TransferOss2Local {
                     offset_map.clone(),
                     modified.path.clone(),
                 );
-                executor.transfer_record_options(vk).await;
+                let _ = executor.transfer_record_options(vk).await;
             }
 
             while execute_set.len() > 0 {

@@ -488,7 +488,7 @@ impl TransferLocal2Local {
 
             let mut vec_keys = vec![];
             // 生成执行文件
-            let mut list_file_position = FilePosition::default();
+            let mut _list_file_position = FilePosition::default();
             let modified_file =
                 File::open(&modified.path).context(format!("{}:{}", file!(), line!()))?;
 
@@ -503,8 +503,8 @@ impl TransferLocal2Local {
                         file!(),
                         line!()
                     ))?;
-                    list_file_position.offset += len;
-                    list_file_position.line_num += 1;
+                    _list_file_position.offset += len;
+                    _list_file_position.line_num += 1;
 
                     if !regex_filter.passed(&record.source_key) {
                         continue;

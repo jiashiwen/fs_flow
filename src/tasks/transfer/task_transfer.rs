@@ -92,11 +92,11 @@ impl TransferTask {
     }
 
     pub async fn start_transfer(&self) -> Result<()> {
-        /// ToDo 重构任务执行结构
-        /// 三个阶段init、stock、increment
-        /// 1. init 阶段：初始化任务，检查任务状态，恢复任务进度，创建任务检查点文件
-        /// 2. stock 阶段：存量数据迁移，迁移存量数据，迁移完成后，更新任务检查点文件
-        /// 3. increment 阶段：增量数据迁移，迁移增量数据，迁移完成后，更新任务检查点文件
+        // ToDo 重构任务执行结构
+        // 三个阶段init、stock、increment
+        // 1. init 阶段：初始化任务，检查任务状态，恢复任务进度，创建任务检查点文件
+        // 2. stock 阶段：存量数据迁移，迁移存量数据，迁移完成后，更新任务检查点文件
+        // 3. increment 阶段：增量数据迁移，迁移增量数据，迁移完成后，更新任务检查点文件
         // sys_set 用于执行checkpoint、notify等辅助任务
         let mut sys_set = JoinSet::new();
         // execut_set 用于执行任务
@@ -903,6 +903,7 @@ impl TransferTask {
     }
 
     // 增量场景下执行record_descriptions 文件
+    #[allow(dead_code)]
     async fn exec_record_descriptions_file(
         &self,
         stop_mark: Arc<AtomicBool>,

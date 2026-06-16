@@ -13,6 +13,7 @@ use std::time::Instant;
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 /// 表示分析结果的结构体，包含最大值和最小值
+#[allow(dead_code)]
 pub struct AnalyzedResult {
     /// 分析结果中的最大值
     pub max: i128,

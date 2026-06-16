@@ -4,6 +4,7 @@ use std::fmt::Display;
 #[derive(Debug)]
 pub enum ConfigErrorType {
     /// 未知错误
+    #[allow(dead_code)]
     UnknowErr,
 }
 
@@ -11,8 +12,10 @@ pub enum ConfigErrorType {
 #[derive(Debug)]
 pub struct ConfigError {
     /// 错误信息
+    #[allow(dead_code)]
     pub message: Option<String>,
     /// 错误原因（上一级的错误）
+    #[allow(dead_code)]
     pub cause: Option<String>,
     /// 错误类型
     pub error_type: ConfigErrorType,
@@ -27,6 +30,7 @@ impl ConfigError {
         }
     }
     /// 从上级错误中创建应用错误
+    #[allow(dead_code)]
     pub(crate) fn from_err(err: impl ToString, error_type: ConfigErrorType) -> Self {
         Self {
             message: None,
